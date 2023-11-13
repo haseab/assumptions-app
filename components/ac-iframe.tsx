@@ -15,12 +15,13 @@ const FullPageIframe = () => {
   const closeChatButton = closeChatButtonString === "true";
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center rounded-lg bg-white p-8">
-      <div>
+    <div className="flex flex-row h-screen w-screen items-center justify-center rounded-lg bg-white">
+      <div className="h-screen w-screen lg:h-[600px] lg:w-[500px]">
         <iframe
           src={`https://automatic.chat/chats/clnnq22vx018bmc0yxcg48980?closeChatButton=${closeChatButton}`}
-          width="400px"
-          height="600px"
+          // src={`http://localhost:3000/chats/clotv15pr002clu4ekrrwyn31`}
+          width="100%"
+          height="100%"
           style={{
             boxShadow:
               "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(150, 150, 150, 0.2) 0px 0px 0px 1px",
