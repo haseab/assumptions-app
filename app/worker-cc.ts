@@ -37,8 +37,6 @@ Refer to \`HISTORY\`, which shows the last 3 user messages, and which worker it 
 
 Here are some examples of Conversations and an appropriate worker being chosen
 
-## **INSERT EXAMPLES OF WORKER BEING CHOSEN**
-
-Based on the \`GOAL\`, the \`CONVERSATION\` the \`FLAWED_ASSUMPTION_FLAG\` and \`HISTORY\`, pick the appropriate \`WORKER\` to respond to the user.
+Based on the \`GOAL\`, the \`CONVERSATION\` and \`HISTORY\`, pick the appropriate \`WORKER\` to respond to the user.
 
 [Worker A, Worker B, Worker C, Worker D, Worker E]`;
