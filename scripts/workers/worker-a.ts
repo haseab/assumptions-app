@@ -1,6 +1,6 @@
-import { workerAPrompt } from "@/app/worker-a";
 import { aifn } from "@/scripts/aifn";
 import { openai } from "@/scripts/main-2";
+import { workerAPrompt } from "@/scripts/prompts/worker-a";
 import { z } from "zod";
 
 export default aifn(
