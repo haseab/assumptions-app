@@ -1,4 +1,4 @@
-import { workerCCPrompt } from "@/app/worker-cc";
+import { workerCCPrompt } from "@/scripts/prompts/cc";
 import chalk from "chalk";
 import OpenAI from "openai";
 import readline from "readline";

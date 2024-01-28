@@ -1,6 +1,6 @@
 import { aifn } from "@/scripts/aifn";
 import { openai } from "@/scripts/main-2";
-import { workerAPrompt } from "@/scripts/prompts/worker-a";
+import { workerEPrompt } from "@/scripts/prompts/e";
 import { z } from "zod";
 
 export default aifn(
@@ -24,7 +24,7 @@ export default aifn(
       messages: [
         {
           role: "system",
-          content: workerAPrompt,
+          content: workerEPrompt,
         },
         //@ts-ignore
         ...messages,
