@@ -2,6 +2,7 @@ import { aifn } from "@/scripts/aifn";
 import { openai } from "@/scripts/main-2";
 import { workerAPrompt } from "@/scripts/prompts/a";
 import { z } from "zod";
+import zodToJsonSchema from "zod-to-json-schema";
 
 export default aifn(
   "workerA",
@@ -17,10 +18,23 @@ export default aifn(
   async ({ messages }) => {
     console.log("Messages: ");
     console.log(messages);
+    // let completion = await openai.chat.completions.create({
+    //   response_format: {
+    //     type: "json_object",
+    //   },
+    //   messages: [
+    //     {
+    //       role: "system",
+    //       content: workerAPrompt,
+    //     },
+    //     //@ts-ignore
+    //     ...messages,
+    //   ],
+
+    //   model: "gpt-4-1106-preview",
+    // });
+
     let completion = await openai.chat.completions.create({
-      response_format: {
-        type: "json_object",
-      },
       messages: [
         {
           role: "system",
@@ -29,8 +43,22 @@ export default aifn(
         //@ts-ignore
         ...messages,
       ],
-
-      model: "gpt-4-1106-preview",
+      functions: [
+        {
+          name: "workerA",
+          description: "The response format of worker A",
+          parameters: zodToJsonSchema(
+            z.object({
+              status: z.boolean(),
+              response: z.string(),
+            })
+          ),
+        },
+      ],
+      function_call: {
+        name: "workerReturn",
+      },
+      model: "gpt-3.5-turbo-1106",
     });
 
     console.log("Completion: ");
