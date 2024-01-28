@@ -1,1 +1,1 @@
-export { default as workerA } from "./worker-a";
+export { default as workerA } from "./a";
