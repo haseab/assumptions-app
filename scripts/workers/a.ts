@@ -6,7 +6,7 @@ import zodToJsonSchema from "zod-to-json-schema";
 
 export default aifn(
   "workerA",
-  "Pick this if you think you suspect the problem as described by the user has not adequately been “grounded” in experience. “Grounding” means when the user is precisely and unambiguously accounting their experience (describing what they heard being said, what they felt, what they physically saw) as opposed to conceptually accounting what is happening.",
+  "Pick this if you think you suspect the problem as described by the user has not adequately been “grounded” in experience. “Grounding” means when the user is precisely and unambiguously accounting their experience (describing what they heard being said, what they felt, what they physically saw) as opposed to conceptually accounting what is happening. Input it context as a string which is every detail you see in your .",
   z.object({
     messages: z.array(
       z.object({
@@ -16,17 +16,18 @@ export default aifn(
     ),
   }),
   async ({ messages }) => {
-    const finalMessages = [
-      {
-        role: "system",
-        content: workerAPrompt,
-      },
-      ...messages,
-    ];
+    console.log("MESSAGES");
+    console.log(messages);
 
     let completion = await openai.chat.completions.create({
-      // @ts-ignore
-      messages: finalMessages,
+      messages: [
+        {
+          role: "system",
+          content: workerAPrompt,
+        },
+        // @ts-ignore
+        ...messages,
+      ],
       functions: [
         {
           name: "workerReturn",
@@ -43,7 +44,7 @@ export default aifn(
       function_call: {
         name: "workerReturn",
       },
-      model: "gpt-3.5-turbo-1106",
+      model: "gpt-4-0125-preview",
     });
 
     const res = JSON.parse(

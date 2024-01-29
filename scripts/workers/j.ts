@@ -1,6 +1,6 @@
 import { aifn } from "@/scripts/aifn";
 import { openai } from "@/scripts/main-2";
-import { workerAPrompt } from "@/scripts/prompts/a";
+import { workerJPrompt } from "@/scripts/prompts/j";
 import { z } from "zod";
 import zodToJsonSchema from "zod-to-json-schema";
 
@@ -16,17 +16,15 @@ export default aifn(
     ),
   }),
   async ({ messages }) => {
-    const finalMessages = [
-      {
-        role: "system",
-        content: workerAPrompt,
-      },
-      ...messages,
-    ];
-
     let completion = await openai.chat.completions.create({
-      // @ts-ignore
-      messages: finalMessages,
+      messages: [
+        {
+          role: "system",
+          content: workerJPrompt,
+        },
+        // @ts-ignore
+        ...messages,
+      ],
       functions: [
         {
           name: "workerReturn",
@@ -43,7 +41,7 @@ export default aifn(
       function_call: {
         name: "workerReturn",
       },
-      model: "gpt-3.5-turbo-1106",
+      model: "gpt-4-0125-preview",
     });
 
     const res = JSON.parse(

@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import OpenAI from "openai";
 import { functions, openai, schemas } from "./main-2";
 
@@ -22,14 +23,21 @@ import { functions, openai, schemas } from "./main-2";
  **/
 export const askAI = async (
   messages: OpenAI.Chat.ChatCompletionMessageParam[],
-  model: string = "gpt-3.5-turbo-16k",
-  props?: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming
+  model: string = "gpt-4-0125-preview",
+  props?: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming,
+  functionName?: string
 ): Promise<any> => {
+  // console.log(messages.filter((m) => m.role !== "system"));
+  console.log("CONTROL WORKER Messages: ", messages);
   let completion = await openai.chat.completions.create({
     messages,
     functions: schemas,
     model,
-    // tool_choice: "auto",
+    ...(functionName && {
+      function_call: {
+        name: functionName,
+      },
+    }),
     ...props,
   });
 
@@ -41,24 +49,31 @@ export const askAI = async (
     case "function_call":
       const { name, arguments: args } =
         completion.choices[0].message.function_call!;
-      console.log("Calling function: ", name);
-      console.log("Args: ", args);
+      console.log(chalk.yellow("Function call: ", name));
+      // console.log("Args: ", args);
       const fn = functions[name];
       if (!fn) throw new Error(`Unknown function ${name}`);
-      const res = (await fn(JSON.parse(args))) as {
+      const res = (await fn({
+        messages: messages.filter(
+          (m) => m.role !== "system" && m.role !== "function"
+        ),
+      })) as {
         success: boolean;
         response: string;
         recommendation: string;
       };
+      console.log(
+        chalk.yellow("Function response: ", JSON.stringify(res, null, 2))
+      );
 
-      messages.push({
-        role: "assistant",
-        content: null,
-        function_call: {
-          name,
-          arguments: args,
-        },
-      });
+      // messages.push({
+      //   role: "assistant",
+      //   // content: "",
+      //   function_call: {
+      //     name,
+      //     arguments: args,
+      //   },
+      // });
 
       messages.push({
         role: "function",
@@ -67,23 +82,23 @@ export const askAI = async (
       });
 
       if (res.success === false) {
-        // // return to user
-        // messages.push({
-        //   role: "assistant",
-        //   content: res.response,
-        // });
+        messages.push({
+          role: "assistant",
+          content: res.response,
+        });
         return res.response;
+        // return askAI(messages, undefined, undefined, name);
       } else {
         // if true, call next function, input recommendation into prompt
         messages.push({
-          role: "system",
+          role: "assistant",
           content: res.recommendation,
         });
+        return askAI(messages);
       }
 
-      console.log("FINAL MESSAGE: ");
-      console.log(messages);
-      return askAI(messages);
+    // console.log("FINAL MESSAGE: ");
+    // console.log(messages);
     default:
       throw new Error("Unknown finish reason");
   }
