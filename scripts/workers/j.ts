@@ -1,11 +1,12 @@
 import { aifn } from "@/scripts/aifn";
 import { openai } from "@/scripts/main-2";
-import { workerJPrompt } from "@/scripts/prompts/j";
+import { workerAPrompt } from "@/scripts/prompts/a";
 import { z } from "zod";
+import zodToJsonSchema from "zod-to-json-schema";
 
 export default aifn(
-  "workerA",
-  "Pick this if you think you suspect the problem as described by the user has not adequately been “grounded” in experience. “Grounding” means when the user is precisely and unambiguously accounting their experience (describing what they heard being said, what they felt, what they physically saw) as opposed to conceptually accounting what is happening.",
+  "workerJ",
+  "Pick this worker for all purposes that are not related to Workers A through I. Typically this worker is picked to steer the user back to the intended conversation, or respond to a casual question.",
   z.object({
     messages: z.array(
       z.object({
@@ -15,26 +16,39 @@ export default aifn(
     ),
   }),
   async ({ messages }) => {
-    console.log("Messages: ");
-    console.log(messages);
-    let completion = await openai.chat.completions.create({
-      response_format: {
-        type: "json_object",
+    const finalMessages = [
+      {
+        role: "system",
+        content: workerAPrompt,
       },
-      messages: [
-        {
-          role: "system",
-          content: workerJPrompt,
-        },
-        //@ts-ignore
-        ...messages,
-      ],
+      ...messages,
+    ];
 
-      model: "gpt-4-1106-preview",
+    let completion = await openai.chat.completions.create({
+      // @ts-ignore
+      messages: finalMessages,
+      functions: [
+        {
+          name: "workerReturn",
+          description: "The response format of the worker",
+          parameters: zodToJsonSchema(
+            z.object({
+              success: z.boolean(),
+              response: z.string(),
+              recommendation: z.string(),
+            })
+          ),
+        },
+      ],
+      function_call: {
+        name: "workerReturn",
+      },
+      model: "gpt-3.5-turbo-1106",
     });
 
-    console.log("Completion: ");
-    console.log(completion.choices[0].message.content);
-    return completion.choices[0].message.content;
+    const res = JSON.parse(
+      completion.choices[0].message.function_call!.arguments
+    );
+    return res;
   }
 );
