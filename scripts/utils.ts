@@ -1,7 +1,10 @@
+import { workerCCprompt2 } from "@/scripts/prompts/cc";
 import chalk from "chalk";
 import OpenAI from "openai";
 import { functions, openai, schemas } from "./main-2";
 
+let function_name = "";
+let recommendations = "";
 /**
  * Ask the AI a question
  * @param messages messages to send to the AI
@@ -21,29 +24,49 @@ import { functions, openai, schemas } from "./main-2";
  * console.log(completion)
  *
  **/
-export const askAI = async (
-  messages: OpenAI.Chat.ChatCompletionMessageParam[],
-  model: string = "gpt-4-0125-preview",
-  props?: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming,
-  functionName?: string
-): Promise<any> => {
+export const askAI = async ({
+  messages,
+  model = "gpt-4-0125-preview",
+  props,
+  functionName,
+}: {
+  messages: OpenAI.Chat.ChatCompletionMessageParam[];
+  model?: string;
+  props?: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming;
+  functionName?: string;
+}): Promise<any> => {
   // console.log(messages.filter((m) => m.role !== "system"));
   console.log("CONTROL WORKER Messages: ", messages);
+
+  // let newSystemMessage = "";
+  // if (function_name) {
+  // newSystemMessage = workerCCprompt2(recommendations);
+  messages[0].content = workerCCprompt2(recommendations);
+  // }
+
   let completion = await openai.chat.completions.create({
     messages,
     functions: schemas,
     model,
-    ...(functionName && {
+    ...(function_name && {
       function_call: {
-        name: functionName,
+        name: function_name,
       },
     }),
     ...props,
   });
+  function_name = "";
+
+  // if you deliberatley specify OpenAI to call a specific function (line 52) with the function_call property, the finish_reason will be "stop" instead of "function_call"
+
+  if (completion.choices[0].message.function_call?.name) {
+    completion.choices[0].finish_reason = "function_call";
+  }
 
   switch (completion.choices[0].finish_reason) {
     case "stop":
-      return completion;
+      return completion.choices[0].message.content;
+    // return completion;
     case "length":
       throw new Error("Message too long");
     case "function_call":
@@ -82,19 +105,19 @@ export const askAI = async (
       });
 
       if (res.success === false) {
-        messages.push({
-          role: "assistant",
-          content: res.response,
-        });
+        function_name = name;
+        // WE WANT USER INPUT NEXT
         return res.response;
-        // return askAI(messages, undefined, undefined, name);
       } else {
         // if true, call next function, input recommendation into prompt
-        messages.push({
-          role: "assistant",
-          content: res.recommendation,
+        // messages.push({
+        //   role: "assistant",
+        //   content: res.recommendation,
+        // });
+        recommendations = res.recommendation;
+        return askAI({
+          messages,
         });
-        return askAI(messages);
       }
 
     // console.log("FINAL MESSAGE: ");

@@ -32,7 +32,8 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
 
     if (answer) {
       messages.push({ role: "user", content: answer }); // Append the user message
-      let completion = await askAI(messages);
+      let completion = await askAI({ messages });
+      // console.log("Completion: ", JSON.stringify(completion, null, 2));
       messages.push({
         role: "assistant",
         content: completion,
