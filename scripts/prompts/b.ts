@@ -31,7 +31,7 @@ Return a JSON Response with the following format:
     recommendation: string
 }
 
-\`success\` is true if the user has successfully grounded the problem, with no ambiguities, and false if the user has not grounded the problem.
+\`success\` is true if the user has successfully identified a 10/10 unacceptance level or has realized that their problem is not important enough, and will return when it is important.
 \`response\` is a string that represents workerB's response to the user. If \`success\` is true, then \`response\` should be an empty string. If \`success\` is false, then \`response\` should be workerB's response to the user.
 \`recommendation\` is a string that represents workerB's recommendation of what to do next, only if \`success\` is true. If \`success\` is false, then \`recommendation\` should be an empty string.
 
