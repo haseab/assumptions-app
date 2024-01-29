@@ -16,7 +16,7 @@ Adopt the style and demeanour of a straightforward person that wears their heart
 Return a JSON Response with the following format:
 
 {
-    sucess: boolean,
+    success: boolean,
     response: string
     recommendation: string
 }
