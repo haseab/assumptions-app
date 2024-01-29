@@ -17,9 +17,6 @@ export const openai = new OpenAI({
 });
 
 async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
-  console.log(chalk.green("Welcome to the ai-fns cli tool!"));
-  console.log(chalk.green("Start by typing a query, or type 'exit' to exit."));
-
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -38,11 +35,9 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
       let completion = await askAI(messages);
       messages.push({
         role: "assistant",
-        content: completion.choices[0].message.content,
+        content: completion,
       });
-      console.log(
-        chalk.magenta(`Assistant: ${completion.choices[0].message.content}`)
-      );
+      console.log(chalk.magenta(`Assistant: ${completion}`));
     } else {
       console.log(chalk.red("You did not provide a query!"));
     }
@@ -55,6 +50,8 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
 // console.log(functions);
 console.log(JSON.stringify(schemas, null, 2));
 // // Run the main function
+console.log(chalk.green("Welcome to the ai-fns cli tool!"));
+console.log(chalk.green("Start by typing a query, or type 'exit' to exit."));
 main([
   {
     role: "system",

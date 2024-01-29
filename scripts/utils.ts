@@ -33,7 +33,6 @@ export const askAI = async (
     ...props,
   });
 
-  console.log(completion);
   switch (completion.choices[0].finish_reason) {
     case "stop":
       return completion;
@@ -46,7 +45,11 @@ export const askAI = async (
       console.log("Args: ", args);
       const fn = functions[name];
       if (!fn) throw new Error(`Unknown function ${name}`);
-      const res = await fn(JSON.parse(args));
+      const res = (await fn(JSON.parse(args))) as {
+        success: boolean;
+        response: string;
+        recommendation: string;
+      };
 
       messages.push({
         role: "assistant",
@@ -60,9 +63,25 @@ export const askAI = async (
       messages.push({
         role: "function",
         name,
-        content: res,
+        content: JSON.stringify({ res }),
       });
 
+      if (res.success === false) {
+        // // return to user
+        // messages.push({
+        //   role: "assistant",
+        //   content: res.response,
+        // });
+        return res.response;
+      } else {
+        // if true, call next function, input recommendation into prompt
+        messages.push({
+          role: "system",
+          content: res.recommendation,
+        });
+      }
+
+      console.log("FINAL MESSAGE: ");
       console.log(messages);
       return askAI(messages);
     default:

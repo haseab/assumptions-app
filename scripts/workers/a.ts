@@ -16,41 +16,26 @@ export default aifn(
     ),
   }),
   async ({ messages }) => {
-    console.log("Messages: ");
-    console.log(messages);
-    // let completion = await openai.chat.completions.create({
-    //   response_format: {
-    //     type: "json_object",
-    //   },
-    //   messages: [
-    //     {
-    //       role: "system",
-    //       content: workerAPrompt,
-    //     },
-    //     //@ts-ignore
-    //     ...messages,
-    //   ],
-
-    //   model: "gpt-4-1106-preview",
-    // });
+    const finalMessages = [
+      {
+        role: "system",
+        content: workerAPrompt,
+      },
+      ...messages,
+    ];
 
     let completion = await openai.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: workerAPrompt,
-        },
-        //@ts-ignore
-        ...messages,
-      ],
+      // @ts-ignore
+      messages: finalMessages,
       functions: [
         {
-          name: "workerA",
-          description: "The response format of worker A",
+          name: "workerReturn",
+          description: "The response format of the worker",
           parameters: zodToJsonSchema(
             z.object({
-              status: z.boolean(),
+              success: z.boolean(),
               response: z.string(),
+              recommendation: z.string(),
             })
           ),
         },
@@ -61,8 +46,9 @@ export default aifn(
       model: "gpt-3.5-turbo-1106",
     });
 
-    console.log("Completion: ");
-    console.log(completion.choices[0].message.content);
-    return completion.choices[0].message.content;
+    const res = JSON.parse(
+      completion.choices[0].message.function_call!.arguments
+    );
+    return res;
   }
 );
