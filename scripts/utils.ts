@@ -49,8 +49,11 @@ export const askAI = async ({
     functions: schemas,
     model,
     ...(function_name && {
-      function_call: {
-        name: function_name,
+      tool_choice: {
+        type: "function",
+        function: {
+          name: function_name,
+        },
       },
     }),
     ...props,
