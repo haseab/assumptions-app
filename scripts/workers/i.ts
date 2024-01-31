@@ -1,6 +1,6 @@
 import { aifn } from "@/scripts/aifn";
 import { openai } from "@/scripts/main-2";
-import { workerIPrompt, workerIPrompt } from "@/scripts/prompts/i";
+import { workerIPrompt } from "@/scripts/prompts/i";
 import { z } from "zod";
 import zodToJsonSchema from "zod-to-json-schema";
 
@@ -25,21 +25,27 @@ export default aifn(
         // @ts-ignore
         ...messages,
       ],
-      functions: [
+      tools: [
         {
-          name: "workerReturn",
-          description: "The response format of the worker",
-          parameters: zodToJsonSchema(
-            z.object({
-              success: z.boolean(),
-              response: z.string(),
-              recommendation: z.string(),
-            })
-          ),
+          type: "function",
+          function: {
+            name: "workerReturn",
+            description: "The response format of the worker",
+            parameters: zodToJsonSchema(
+              z.object({
+                success: z.boolean(),
+                response: z.string(),
+                recommendation: z.string(),
+              })
+            ),
+          },
         },
       ],
-      function_call: {
-        name: "workerReturn",
+      tool_choice: {
+        type: "function",
+        function: {
+          name: "workerReturn",
+        },
       },
       model: "gpt-4-0125-preview",
     });
