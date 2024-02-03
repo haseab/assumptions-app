@@ -67,10 +67,11 @@ export const askAI = async ({
   });
   function_name = "";
 
+  console.log("COMPLETION: ", completion);
   // if you deliberatley specify OpenAI to call a specific function (line 52) with the function_call property, the finish_reason will be "stop" instead of "function_call"
 
-  if (completion.choices[0].message.function_call?.name) {
-    completion.choices[0].finish_reason = "function_call";
+  if (completion.choices[0].message.tool_calls![0].function.name) {
+    completion.choices[0].finish_reason = "tool_calls";
   }
 
   switch (completion.choices[0].finish_reason) {
@@ -79,9 +80,9 @@ export const askAI = async ({
     // return completion;
     case "length":
       throw new Error("Message too long");
-    case "function_call":
+    case "tool_calls":
       const { name, arguments: args } =
-        completion.choices[0].message.function_call!;
+        completion.choices[0].message.tool_calls![0].function;
       console.log(chalk.yellow("Function call: ", name));
       // console.log("Args: ", args);
       const fn = functions[name];

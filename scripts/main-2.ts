@@ -49,7 +49,7 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
 }
 
 // console.log(functions);
-console.log(JSON.stringify(schemas, null, 2));
+// console.log(JSON.stringify(schemas, null, 2));
 // // Run the main function
 console.log(chalk.green("Welcome to the ai-fns cli tool!"));
 console.log(chalk.green("Start by typing a query, or type 'exit' to exit."));
