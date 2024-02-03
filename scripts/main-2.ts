@@ -2,7 +2,7 @@ import { workerCCPrompt } from "@/scripts/prompts/cc";
 import chalk from "chalk";
 import OpenAI from "openai";
 import readline from "readline";
-import { testMessages } from "./preload";
+import { functionName, testMessages } from "./preload";
 import { askAI } from "./utils";
 import * as tools from "./workers";
 
@@ -24,7 +24,7 @@ const startMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
   },
 ];
 
-const systemMessage = testMessages ? testMessages : startMessages;
+const systemMessage = testMessages.length !== 0 ? testMessages : startMessages;
 
 async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
   const rl = readline.createInterface({
@@ -42,7 +42,7 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
 
     if (answer) {
       messages.push({ role: "user", content: answer }); // Append the user message
-      let completion = await askAI({ messages });
+      let completion = await askAI({ messages, functionName });
       // console.log("Completion: ", JSON.stringify(completion, null, 2));
       messages.push({
         role: "assistant",

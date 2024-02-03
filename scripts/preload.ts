@@ -1,7 +1,7 @@
 import { OpenAI } from "openai";
 
+export const functionName: string = "";
 export const testMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [];
-
 //  [
 //   {
 //     role: "system",

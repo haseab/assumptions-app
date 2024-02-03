@@ -1,7 +1,7 @@
 import { workerCCprompt2 } from "@/scripts/prompts/cc";
 import chalk from "chalk";
+import console from "console";
 import OpenAI from "openai";
-import { ChatCompletionFunctionMessageParam } from "openai/resources/index.mjs";
 import { functions, openai, schemas } from "./main-2";
 
 let function_name = "";
@@ -29,32 +29,24 @@ export const askAI = async ({
   messages,
   model = "gpt-4-0125-preview",
   props,
+  functionName,
 }: {
   messages: OpenAI.Chat.ChatCompletionMessageParam[];
   model?: string;
   props?: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming;
+  functionName?: string | undefined;
 }): Promise<any> => {
   // console.log(messages.filter((m) => m.role !== "system"));
 
-  const functionName = messages
-    .filter(
-      (message): message is ChatCompletionFunctionMessageParam =>
-        message.role === "function"
-    )
-    .slice(-1)[0];
-
-  const worker = functionName ? functionName.name : function_name;
-
-  function_name = worker ? worker : "";
-
-  console.log("FUNCTION NAME: ", functionName);
+  function_name = functionName !== undefined ? functionName : function_name;
+  console.log("FUNCTION NAME: ", function_name);
 
   console.log("CONTROL WORKER Messages: ", messages);
 
   // let newSystemMessage = "";
   // if (function_name) {
   // newSystemMessage = workerCCprompt2(recommendations);
-  messages[0].content = workerCCprompt2(recommendations);
+  // messages[0].content = workerCCprompt2(recommendations);
   // }
 
   let completion = await openai.chat.completions.create({
@@ -136,10 +128,10 @@ export const askAI = async ({
         return res.response;
       } else {
         // if true, call next function, input recommendation into prompt
-        // messages.push({
-        //   role: "assistant",
-        //   content: res.recommendation,
-        // });
+        messages.push({
+          role: "system",
+          content: workerCCprompt2(res.recommendation),
+        });
         recommendations = res.recommendation;
         return askAI({
           messages,
