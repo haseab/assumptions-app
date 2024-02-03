@@ -87,6 +87,8 @@ testMessages = [
   },
 ];
 
+const systemMessage = testMessages ? testMessages : startMessages;
+
 async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -124,4 +126,4 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
 // // Run the main function
 console.log(chalk.green("Welcome to the ai-fns cli tool!"));
 console.log(chalk.green("Start by typing a query, or type 'exit' to exit."));
-main(testMessages ? testMessages : startMessages);
+main(systemMessage);

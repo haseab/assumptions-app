@@ -1,6 +1,7 @@
 import { workerCCprompt2 } from "@/scripts/prompts/cc";
 import chalk from "chalk";
 import OpenAI from "openai";
+import { ChatCompletionFunctionMessageParam } from "openai/resources/index.mjs";
 import { functions, openai, schemas } from "./main-2";
 
 let function_name = "";
@@ -28,14 +29,24 @@ export const askAI = async ({
   messages,
   model = "gpt-4-0125-preview",
   props,
-  functionName,
 }: {
   messages: OpenAI.Chat.ChatCompletionMessageParam[];
   model?: string;
   props?: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming;
-  functionName?: string;
 }): Promise<any> => {
   // console.log(messages.filter((m) => m.role !== "system"));
+
+  const functionName = messages
+    .filter(
+      (message): message is ChatCompletionFunctionMessageParam =>
+        message.role === "function"
+    )
+    .slice(-1)[0].name;
+
+  function_name = functionName ? functionName : "";
+
+  console.log("FUNCTION NAME: ", functionName);
+
   console.log("CONTROL WORKER Messages: ", messages);
 
   // let newSystemMessage = "";
@@ -68,6 +79,8 @@ export const askAI = async ({
   function_name = "";
 
   console.log("COMPLETION: ", completion);
+
+  console.log("choices:", completion.choices[0].message);
   // if you deliberatley specify OpenAI to call a specific function (line 52) with the function_call property, the finish_reason will be "stop" instead of "function_call"
 
   if (completion.choices[0].message.tool_calls![0].function.name) {
