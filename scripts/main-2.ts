@@ -85,10 +85,6 @@ testMessages = [
     content:
       "Alright, you've placed your level of unacceptance at a 5. It's definitely bothering you, but it's not yet pushing you over the edge. Can you pinpoint a time or event in the future when not addressing your chocolate consumption might escalate to a 10/10 level of unacceptance for you?",
   },
-  {
-    role: "user",
-    content: "tbh i don't think i can give you a time in the future lol",
-  },
 ];
 
 async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
