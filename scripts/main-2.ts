@@ -26,6 +26,9 @@ const startMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
 
 const systemMessage = testMessages.length !== 0 ? testMessages : startMessages;
 
+let function_name = functionName ? functionName : "";
+let completion;
+
 async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -42,8 +45,10 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
 
     if (answer) {
       messages.push({ role: "user", content: answer }); // Append the user message
-      let completion = await askAI({ messages, functionName });
-      // console.log("Completion: ", JSON.stringify(completion, null, 2));
+      [completion, function_name] = await askAI({
+        messages,
+        functionName: function_name,
+      });
       messages.push({
         role: "assistant",
         content: completion,

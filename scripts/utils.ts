@@ -1,8 +1,8 @@
-import { workerCCprompt2 } from "@/scripts/prompts/cc";
 import chalk from "chalk";
 import console from "console";
 import OpenAI from "openai";
 import { functions, openai, schemas } from "./main-2";
+import { workerCCprompt2 } from "./prompts/cc";
 
 let function_name = "";
 let recommendations = "";
@@ -38,7 +38,7 @@ export const askAI = async ({
 }): Promise<any> => {
   // console.log(messages.filter((m) => m.role !== "system"));
 
-  function_name = functionName !== undefined ? functionName : function_name;
+  function_name = functionName ? functionName : function_name;
   console.log("FUNCTION NAME: ", function_name);
 
   console.log("CONTROL WORKER Messages: ", messages);
@@ -46,8 +46,7 @@ export const askAI = async ({
   // let newSystemMessage = "";
   // if (function_name) {
   // newSystemMessage = workerCCprompt2(recommendations);
-  // messages[0].content = workerCCprompt2(recommendations);
-  // }
+  messages[0].content = workerCCprompt2(recommendations);
 
   let completion = await openai.chat.completions.create({
     messages,
@@ -74,7 +73,7 @@ export const askAI = async ({
 
   console.log("COMPLETION: ", completion);
 
-  console.log("choices:", completion.choices[0].message);
+  console.log("message:", completion.choices[0].message);
   // if you deliberatley specify OpenAI to call a specific function (line 52) with the function_call property, the finish_reason will be "stop" instead of "function_call"
 
   if (completion.choices[0].message.tool_calls![0].function.name) {
@@ -84,7 +83,7 @@ export const askAI = async ({
   switch (completion.choices[0].finish_reason) {
     case "stop":
       return completion.choices[0].message.content;
-    // return completion;
+    // return completion;1
     case "length":
       throw new Error("Message too long");
     case "tool_calls":
@@ -125,13 +124,13 @@ export const askAI = async ({
       if (res.success === false) {
         function_name = name;
         // WE WANT USER INPUT NEXT
-        return res.response;
+        return [res.response, function_name];
       } else {
         // if true, call next function, input recommendation into prompt
-        messages.push({
-          role: "system",
-          content: workerCCprompt2(res.recommendation),
-        });
+        // messages.push({
+        //   role: "system",
+        //   content: workerCCprompt2(res.recommendation),
+        // });
         recommendations = res.recommendation;
         return askAI({
           messages,
