@@ -41,9 +41,11 @@ export const askAI = async ({
       (message): message is ChatCompletionFunctionMessageParam =>
         message.role === "function"
     )
-    .slice(-1)[0].name;
+    .slice(-1)[0];
 
-  function_name = functionName ? functionName : "";
+  const worker = functionName ? functionName.name : function_name;
+
+  function_name = worker ? worker : "";
 
   console.log("FUNCTION NAME: ", functionName);
 
