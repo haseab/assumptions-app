@@ -46,8 +46,14 @@ export const askAI = async ({
 
   let completion = await openai.chat.completions.create({
     messages,
-    functions: schemas,
-    model,
+    tools: schemas.map((schema) => ({
+      type: "function",
+      function: {
+        name: schema.name,
+        description: schema.description, // This is optional and will be included if provided in the schema.
+        parameters: schema.parameters,
+      },
+    })),
     ...(function_name && {
       tool_choice: {
         type: "function",
@@ -56,6 +62,7 @@ export const askAI = async ({
         },
       },
     }),
+    model,
     ...props,
   });
   function_name = "";

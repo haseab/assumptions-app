@@ -53,8 +53,15 @@ export default aifn(
       model: "gpt-4-0125-preview",
     });
 
+    console.log("WORKER A COMPLETION: ", completion);
+
+    console.log(
+      "WORKER A COMPLETION CHOICES: ",
+      completion.choices[0].message.tool_calls![0].function
+    );
+
     const res = JSON.parse(
-      completion.choices[0].message.function_call!.arguments
+      completion.choices[0].message.tool_calls![0].function.arguments
     );
     return res;
   }
