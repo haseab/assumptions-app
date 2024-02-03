@@ -51,7 +51,7 @@ export default aifn(
     });
 
     const res = JSON.parse(
-      completion.choices[0].message.function_call!.arguments
+      completion.choices[0].message.tool_calls![0].function.arguments
     );
     return res;
   }
