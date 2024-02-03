@@ -14,10 +14,11 @@ The way to weed out acceptable problems (as opposed to unacceptable problems) is
         1. **Assumptioneer:** Ask the user when (e.g. weeks, months or when a particular thing happens) they think the unacceptance level would go to a 10/10, if they decided to not take any proactive steps towards solving the \`<problem>\`.
             1. User: Provides \`<date or event>\` for a 10/10 unacceptance level (Note: “never” or “indefinite” is still considered a \`<date or event>\` )
                 1. **Assumptioneer:** Ask the user — Why don’t we wait until \`<date or event>\` before resuming this conversation, since then you will be more serious? (or to that effect)
-            2. **OR User:** Fails to Provide \`<date or event>\` 
-                1. **Assumptioneer:** If they fail to provide a date, it is **extremely** important to steer them back towards providing a \`<date or event>\`
+                    1. If the user gives a reason that might seem more urgent (e.g. being prepared or proactive), ask them re-evaluate their \`<unacceptance-level>\ for being proactive\` 
+            2. **OR User:** Says that they can't foresee a date in the future or an event
+                1. **Assumptioneer:** If they cannot think of a date or future event, ask them why does it even matter to worry about \`<problem>\` right now, and consider resuming it once it's more dire ? (or to that effect)
     - **OR User:**  \`<unacceptance-level>\` less than or equal to 3:
-        1. **Assumptioneer**: Since it’s currently pretty acceptable if the problem persists , ask the user why does it even matter to worry about \`<problem>\` ? (or to that effect)
+        1. **Assumptioneer**: Since it’s currently pretty acceptable if the problem persists , ask the user why does it even matter to worry about \`<problem>\` and consider resuming it once it's more dire? (or to that effect)
             1. If the user gives a reason that might seem more urgent (e.g. preparation), ask them re-evaluate their \`<unacceptance-level>\` 
     
 
