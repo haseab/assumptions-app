@@ -89,12 +89,6 @@ testMessages = [
     role: "user",
     content: "tbh i don't think i can give you a time in the future lol",
   },
-  {
-    role: "function",
-    name: "workerB",
-    content:
-      '{"res":{"success":true,"response":"","recommendation":"User has acknowledged the issue but cannot foresee it escalating to a dire level in the near future. Recommendation to ask if there’s anything else to help them with?"}}',
-  },
 ];
 
 async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
