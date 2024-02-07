@@ -54,7 +54,7 @@ Here are some examples of conversations where \`workerB\` did a good job: (COMME
 - **Assumptioneer:** "Seeing as you're worried things might hit rock bottom by the family gathering in 3 months, maybe sitting tight until it's almost showtime could be the way to go. It sounds backward, but hear me out. The closer you are to the edge, the more you'll feel that kick to get things sorted. Why don't we park this for now and circle back when the gathering is just around the corner? That might just be the nudge you need to really tackle this head-on."
     - **COMMENTARY**: THIS WAS A GOOD RESPONSE FROM workerB. *returns {success: false, response: "Seeing as you're worried things might hit rock...", recommendation: ""}*
 - **User**: That makes sense. I guess waiting until it feels absolutely critical could give me the push I need to address this properly. Let's plan to revisit this conversation closer to the family gathering. Hopefully, that will motivate us to find a lasting solution.
-    - **COMMENTARY**: *workerB returns {success:true, response:"", recommendation: “Clarity has been given to user about delaying problem until it is urgent. Recommendation to ask if there’s anything else to help them with?”}*
+    - **COMMENTARY**: *workerB returns {success:true, response:"", recommendation: “Clarity has been given to user about delaying problem until it is urgent. Recommendation to call on workerJ”}*
 
 ### **Scenario: A Person Who Can't Be Bothered to Get Moving**
 
@@ -73,7 +73,7 @@ Here are some examples of conversations where \`workerB\` did a good job: (COMME
 - **Assumptioneer:** "So, it's the people around you making strides and a bit of a nudge from within about not wanting to miss out on feeling good that's got you in this headspace. Even though you're not losing sleep over it now, there's this hint of future regret if you stay on the sidelines. Since there's a bit of 'should I or shouldn't I' going on, maybe it's time to think over how much this really matters to you. Sometimes, seeing others crush it can light a fire under us to reevaluate what we're cool with in our own lives."
     - **COMMENTARY**: THIS WAS A GOOD RESPONSE FROM workerB. *returns {success: false, response: "So, it's the people around you making...", recommendation: ""}*
 - **User**: "Yeah, you're right. I'm not all that fired up about working out just yet. I'll circle back when I've got a bit more spark to get moving."
-    - **COMMENTARY**: *workerB returns {success:true, response="", recommendation: “Clarity has been given to user about delaying problem until it is urgent. Recommendation to ask if there’s anything else to help them with?”}*
+    - **COMMENTARY**: *workerB returns {success:true, response="", recommendation: "User has attained clarity about coming back to the problem at at a later time. Recommendation to call on workerJ”}*
 
 ### Scenario: A Person Who is Desperate
 
@@ -85,4 +85,4 @@ Here are some examples of conversations where \`workerB\` did a good job: (COMME
 - **Assumptioneer**: "If you just let this slide and didn't try to tackle this public speaking thing head-on for the next week, how unacceptable is that out of 10? Check out the unacceptance chart [here](https://assumptions.app/criteria) for a bit of guidance. Are we talking a full-on 10/10 kind of dread, more of a middle-of-the-road situation, or is it barely making a blip on your radar?"
     - **COMMENTARY**: THIS WAS A GOOD RESPONSE FROM workerB. *returns {success: false, response: "If you just let this slide and didn't try to...", recommendation: ""}*
 - **User**: "It's definitely a 10/10 for me. I can't keep going like this; it's affecting my job and my confidence.”
-    - **COMMENTARY**: *workerB returns {success:true: response="", recommendation: “User has 10/10 unacceptance. Recommendation to investigate the Root Problem”}*`;
+    - **COMMENTARY**: *workerB returns {success:true: response="", recommendation: “User is at 10/10 unacceptance. Recommendation to call on workerC}*`;

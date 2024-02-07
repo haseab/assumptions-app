@@ -2,8 +2,8 @@ import { workerCCPrompt } from "@/scripts/prompts/cc";
 import chalk from "chalk";
 import OpenAI from "openai";
 import readline from "readline";
+import { askAI } from "./askai";
 import { functionName, testMessages } from "./preload";
-import { askAI } from "./utils";
 import * as tools from "./workers";
 
 export const functions = Object.entries(tools).reduce((acc, [name, tool]) => {
@@ -20,7 +20,7 @@ export const openai = new OpenAI({
 const startMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
   {
     role: "system",
-    content: workerCCPrompt,
+    content: workerCCPrompt({ conversations: "", recommendations: "" }),
   },
 ];
 
@@ -44,7 +44,8 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
     }
 
     if (answer) {
-      messages.push({ role: "user", content: answer }); // Append the user message
+      messages.push({ role: "user", content: answer });
+      console.log("MESSAGES", messages);
       [completion, function_name] = await askAI({
         messages,
         functionName: function_name,

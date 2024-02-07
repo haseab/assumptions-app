@@ -34,7 +34,7 @@ Here are some examples of conversations where \`workerA\` did a good job (COMMEN
 Tell me the last blow-up you two had. What set it off, and how did you both react? Give me the full picture, no holding back."
     - **COMMENTARY**: THIS WAS A GOOD RESPONSE FROM workerA. *returns {success: false, response: "That's unfortunate. Lay it out for me. Tell me...", recommendation: ""}*
 - **User**: "During dinner last Thursday, we started arguing about not spending enough quality time together. It began when I mentioned feeling a bit neglected lately because we've both been so busy with work. My partner immediately got defensive, saying that I'm not appreciating how hard they're working to provide for us. Voices were raised, and we both ended up saying things like 'You never make time for me' and 'All you do is complain.' It was really heated, and we didn't talk for the rest of the night."
-    - **COMMENTARY**: *workerA returns json {success: true, response: "", recommendation: “User has clearly grounded the problem to the 5 senses, recommendation to proceed with assessing urgency/unacceptance of situation”}*
+    - **COMMENTARY**: *workerA returns json {success: true, response: "", recommendation: “User has clearly grounded the problem to the 5 senses, recommendation to call on workerB}*
 
 ### **Scenario: Details Obtained in 2 Questions**
 
@@ -47,5 +47,5 @@ Tell me the last blow-up you two had. What set it off, and how did you both reac
 - **Assumptioneer**: "Who was in on this chat, and what were they saying? Tell me exactly what you are seeing and exactly what you are hearing (for example: My team lead explicitly said “John isn’t capable enough to be in this project). Allow me to view the world like you did when you experienced it.
     - **COMMENTARY**: [THIS WAS A GOOD RESPONSE FROM workerA. ] *returns {success: false, response: "Who was in on this chat, and what were...", recommendation: ""}*
 - **User:** I was near the break room when I heard my team lead, Sarah, and two other senior team members, Mark and Lisa, discussing the new AI integration project. They were talking about the project phases and who should be involved. I clearly heard Mark say, "We need someone with a deep understanding of AI applications," and Sarah responded, "Absolutely, but let's keep the team tight this time. We can manage without broadening the circle too much." I didn't hear my name mentioned at all, and considering my background in AI, it struck me as odd and exclusionary. It felt like they were deliberately keeping the project details from me, even though my expertise aligns perfectly with the project's requirements.
-    - **COMMENTARY**: *workerA returns json {success: true, response: "", recommendation: “User has clearly grounded the problem to the 5 senses, recommendation to proceed with assessing urgency/unacceptance of situation”}*
+    - **COMMENTARY**: *workerA returns json {success: true, response: "", recommendation: "The problem has been successfully grounded, recommendation to call on workerB}*
 `;

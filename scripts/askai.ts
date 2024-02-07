@@ -1,11 +1,12 @@
+import { conversationConverter } from "@/utils";
 import chalk from "chalk";
 import console from "console";
 import OpenAI from "openai";
 import { functions, openai, schemas } from "./main-2";
-import { workerCCprompt2 } from "./prompts/cc";
+import { workerCCPrompt } from "./prompts/cc";
 
 let function_name = "";
-let recommendations = "";
+let recommendations = "call on workerA";
 /**
  * Ask the AI a question
  * @param messages messages to send to the AI
@@ -41,15 +42,15 @@ export const askAI = async ({
   function_name = functionName ? functionName : function_name;
   console.log("FUNCTION NAME: ", function_name);
 
-  console.log("CONTROL WORKER Messages: ", messages);
+  messages[0].content = workerCCPrompt({
+    recommendations,
+    conversations: conversationConverter(messages),
+  });
 
-  // let newSystemMessage = "";
-  // if (function_name) {
-  // newSystemMessage = workerCCprompt2(recommendations);
-  messages[0].content = workerCCprompt2(recommendations);
+  console.log("CONTROL WORKER Messages: ", [messages[0]]);
 
   let completion = await openai.chat.completions.create({
-    messages,
+    messages: [messages[0]],
     tools: schemas.map((schema) => ({
       type: "function",
       function: {
@@ -67,9 +68,11 @@ export const askAI = async ({
       },
     }),
     model,
+    temperature: 0,
     ...props,
   });
   function_name = "";
+  recommendations = "";
 
   console.log("COMPLETION: ", completion);
 
@@ -90,7 +93,7 @@ export const askAI = async ({
       const { name, arguments: args } =
         completion.choices[0].message.tool_calls![0].function;
       console.log(chalk.yellow("Function call: ", name));
-      // console.log("Args: ", args);
+      // console.log("Args: ", args);l
       const fn = functions[name];
       if (!fn) throw new Error(`Unknown function ${name}`);
       const res = (await fn({
@@ -115,11 +118,11 @@ export const askAI = async ({
       //   },
       // });
 
-      messages.push({
-        role: "function",
-        name,
-        content: JSON.stringify({ res }),
-      });
+      // messages.push({
+      //   role: "function",
+      //   name,
+      //   content: JSON.stringify({ res }),
+      // });
 
       if (res.success === false) {
         function_name = name;
@@ -129,7 +132,7 @@ export const askAI = async ({
         // if true, call next function, input recommendation into prompt
         // messages.push({
         //   role: "system",
-        //   content: workerCCprompt2(res.recommendation),
+        //   content: workerCCPrompt2({res.recommendation),
         // });
         recommendations = res.recommendation;
         return askAI({

@@ -78,5 +78,5 @@ Here are some examples of conversations where \`workerI\` did a good job (COMMEN
     - **COMMENTARY**: THIS WAS A GREAT RESPONSE FROM workerI. *returns {success: false, response: "You're onto something here! Reflecting on your ideas, how do you...", recommendation: ""}*
 - **User:** You're right, consistency is key, isn't it? Adapting these strategies to fit different contexts might require some flexibility. For example, the casual tone and personal stories might work well in a smaller, more informal meeting but might need to be adjusted for a larger, more formal conference. Maybe for larger groups, I could use more visual aids or interactive elements to create engagement and that sense of camaraderie.
 *Conversation continues*
-    - **COMMENTARY**: At the end of the conversation, once solutions have been obtained: *workerI returns json {success: true, response: "", recommendation: "User has obtained the solutions that they need to solve their problem. Recommendation to ask them if there's anything else we can help with"”}*
+    - **COMMENTARY**: At the end of the conversation, once solutions have been obtained: *workerI returns json {success: true, response: "", recommendation: "User has obtained the solutions that they need to solve their problem. Recommendation to call on workerJ"”}*
 `;

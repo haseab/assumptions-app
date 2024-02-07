@@ -16,7 +16,7 @@ export default aifn(
     ),
   }),
   async ({ messages }) => {
-    console.log("MESSAGES");
+    console.log("WORKER A: MESSAGES");
     console.log(messages);
 
     let completion = await openai.chat.completions.create({
@@ -51,6 +51,7 @@ export default aifn(
         },
       },
       model: "gpt-4-0125-preview",
+      temperature: 0,
     });
 
     console.log("WORKER A COMPLETION: ", completion);
