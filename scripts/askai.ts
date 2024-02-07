@@ -2,7 +2,7 @@ import { conversationConverter } from "@/utils";
 import chalk from "chalk";
 import console from "console";
 import OpenAI from "openai";
-import { functions, openai, schemas } from "./main-2";
+import { functions, openai, schemas } from "./main_2";
 import { workerCCPrompt } from "./prompts/cc";
 
 let function_name = "";

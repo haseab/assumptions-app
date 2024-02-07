@@ -11,11 +11,11 @@ You are the \`WORKER\` Control Center. Your job as \`WORKER\` Control Center is 
 
 Based on the \`GOAL\`, the \`CONVERSATION HISTORY\` and \`INSTRUCTIONS_FROM_PREVIOUS_WORKER_ON_NEXT_WORKER_TO_PICK\`, pick the appropriate \`WORKER\` to respond to the user.
 
-NOTE: YOU MUST PICK A FUNCTION, YOU CANNOT RESPOND TO THE USER DIRECTLY.
-
 CONVERSATION HISTORY:
 ${conversations}
 
 INSTRUCTIONS_FROM_PREVIOUS_WORKER_ON_NEXT_WORKER_TO_PICK:
 Previous Worker: "${recommendations}"
+
+NOTE: YOU MUST PICK A FUNCTION, YOU CANNOT RESPOND TO THE USER DIRECTLY.
 `;

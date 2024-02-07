@@ -1,5 +1,5 @@
 import { aifn } from "@/scripts/aifn";
-import { openai } from "@/scripts/main-2";
+import { openai } from "@/scripts/main_2";
 import { workerBPrompt } from "@/scripts/prompts/b";
 import { z } from "zod";
 import zodToJsonSchema from "zod-to-json-schema";
