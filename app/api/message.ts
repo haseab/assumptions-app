@@ -20,7 +20,10 @@ export const openai = new OpenAI({
 const startMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
   {
     role: "system",
-    content: workerCCPrompt,
+    content: workerCCPrompt({
+      conversations: "",
+      recommendations: "call on workerA",
+    }),
   },
 ];
 
