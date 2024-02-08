@@ -49,6 +49,23 @@ export const askAI = async ({
 
   console.log("CONTROL WORKER Messages: ", [messages[0]]);
 
+  console.log(
+    JSON.stringify(
+      schemas.map((schema) => {
+        return {
+          type: "function",
+          function: {
+            name: schema.name,
+            description: schema.description, // This is optional and will be included if provided in the schema.
+            parameters: schema.parameters,
+          },
+        };
+      }),
+      null,
+      2
+    )
+  );
+
   let completion = await openai.chat.completions.create({
     messages: [messages[0]],
     tools: schemas.map((schema) => ({
@@ -79,6 +96,16 @@ export const askAI = async ({
   console.log("message:", completion.choices[0].message);
   // if you deliberatley specify OpenAI to call a specific function (line 52) with the function_call property, the finish_reason will be "stop" instead of "function_call"
 
+  console.log(
+    schemas.map((schema) => ({
+      type: "function",
+      function: {
+        name: schema.name,
+        description: schema.description, // This is optional and will be included if provided in the schema.
+        parameters: schema.parameters,
+      },
+    }))
+  );
   if (completion.choices[0].message.tool_calls![0].function.name) {
     completion.choices[0].finish_reason = "tool_calls";
   }

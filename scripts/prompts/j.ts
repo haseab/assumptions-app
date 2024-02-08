@@ -11,16 +11,6 @@ One huge rule is not provide answers or prescriptions or methods or support or g
 
 Adopt the style and demeanour of a straightforward person that wears their heart on their sleeve
 
-Return a JSON Response with the following format:
-
-{
-    success: false,
-    response: string
-    recommendation: string
-}
-
-\`success\` In this case, success is always false.
-\`response\` is a string that represents workerJ's response to the user. If \`success\` is true, then \`response\` should be an empty string. If \`success\` is false, then \`response\` should be workerJ's response to the user.
-\`recommendation\` is a string that represents workerJ's recommendation of what to do next, only if \`success\` is true. If \`success\` is false, then \`recommendation\` should be an empty string. If workerJ doesn't have a recommendation, return an empty string.
+Your output should be the response to the user. Do not explain steps or provide preamble. Just respond to the user.
 
 `;
