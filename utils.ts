@@ -45,6 +45,7 @@ export const workerCallOpenAI = async ({
     chunks.push(text);
     process.stdout.write(chalk.magenta(`${text}`));
   }
+  process.stdout.write("\n");
 
   // console.log("WORKER A COMPLETION: ", chunks.join(""));
   const res = chunks.join("");

@@ -9,22 +9,17 @@ export const functions = Object.entries(tools).reduce((acc, [name, tool]) => {
   return acc;
 }, {} as Record<string, (args: any) => any>);
 
-// console.log(functions);
-
-let function_name = "workerA";
 let selection: string;
 
 export const getSelection = async ({
   messages,
-  functionName,
+  lastWorker = "workerA",
 }: {
   messages: OpenAI.Chat.ChatCompletionMessageParam[];
-  functionName?: string | undefined;
+  lastWorker: string;
 }): Promise<any> => {
-  function_name = functionName ? functionName : function_name;
-
   try {
-    selection = await functions[function_name]({
+    selection = await functions[lastWorker]({
       messages,
       selector: true,
     });
@@ -33,11 +28,11 @@ export const getSelection = async ({
 
     const selectionJSON = JSON.parse(selection);
 
-    function_name = selectionJSON.nextWorker;
+    const { nextWorker } = selectionJSON;
 
-    console.log(chalk.yellow(`Worker called: ${function_name}`));
+    console.log(chalk.yellow(`Worker called: ${nextWorker}`));
 
-    return function_name;
+    return nextWorker;
   } catch (e) {
     console.log("ERROR: ", e);
   }
@@ -45,11 +40,15 @@ export const getSelection = async ({
 
 export const getCompletion = async ({
   messages,
+  nextWorker = "workerA",
 }: {
   messages: OpenAI.Chat.ChatCompletionMessageParam[];
+  nextWorker: string;
 }) => {
+  console.log("NEXT WORKER:", nextWorker);
+  console.log("NEXT WORKER FUNCTION:", functions[nextWorker]);
   try {
-    const completion = await functions[function_name]({
+    const completion = await functions[nextWorker]({
       messages,
       selector: false,
     });

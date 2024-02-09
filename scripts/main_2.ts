@@ -1,24 +1,27 @@
 import chalk from "chalk";
 import OpenAI from "openai";
-import { ChatCompletion } from "openai/resources/index.mjs";
 import readline from "readline";
 import { getCompletion, getSelection } from "./askai";
-import { functionName } from "./preload";
 
 export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-let function_name = functionName ? functionName : "workerA";
-let selection: ChatCompletion;
-let completion: string;
-let firstRun = true;
-
-async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
+async function main({
+  messages = [],
+  lastWorker = "workerA",
+}: {
+  messages: OpenAI.Chat.ChatCompletionMessageParam[];
+  lastWorker: string;
+}) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
+
+  let completion: string;
+  let firstRun = true;
+  let nextWorker = "workerA";
 
   rl.question(chalk.cyan("User: "), async (answer) => {
     // Check if user wants to exit
@@ -37,7 +40,7 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
     // console.log(firstRun);
 
     if (!firstRun) {
-      function_name = await getSelection({ messages });
+      nextWorker = await getSelection({ messages, lastWorker });
     }
     firstRun = false;
     if (answer) {
@@ -45,7 +48,7 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
 
       // console.log("MESSAGES", messages);
 
-      completion = await getCompletion({ messages });
+      completion = await getCompletion({ messages, nextWorker });
 
       messages.push({
         role: "assistant",
@@ -56,7 +59,7 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
     }
 
     rl.close();
-    main(messages); // Loop
+    main({ messages, lastWorker: nextWorker }); // Loop
   });
 }
 
@@ -64,4 +67,4 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
 // // Run the main function
 console.log(chalk.green("Welcome to assumptions.app cli tool!"));
 console.log(chalk.green("Start by typing a query, or type 'exit' to exit."));
-main();
+main({ lastWorker: "workerA", messages: [] });
