@@ -22,7 +22,5 @@ export async function POST(request: Request) {
 
   completion = await getCompletion({ messages, nextWorker });
 
-  return new Response(
-    JSON.stringify({ data: { completion, lastWorker: nextWorker } })
-  );
+  return new Response(JSON.stringify({ completion, lastWorker: nextWorker }));
 }
