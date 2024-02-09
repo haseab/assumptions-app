@@ -29,4 +29,6 @@ Your output should be the response to the user. Do not explain steps or provide 
 - **User**: The thought of messing up in front of everyone terrifies me because it feels like it would confirm all the negative thoughts I already have about myself. Deep down, I think I'm afraid that if I fail publicly, it will prove that I'm not competent or smart enough for my role. This fear isn't just about the presentation itself; it's about what that failure represents - being exposed as a fraud in front of my peers and superiors. It's like all my insecurities about not being good enough are just waiting for a moment like this to be validated in the worst way possible.
 - **Assumptioneer**: Alright, I hear you loud and clear. Now let’s zero in on the fear of being exposed as a fraud. Let us for a second just imagine that your fear came true. I want you to try visualize what would happen of your life if you are exposed as a fraud. What happens 1 week later? 1 Month later? Forget the broad strokes of fear for a moment; I want the vivid details. What exactly are you seeing? What are people saying to you, where are you, who is saying it? Let's not skirt around the edges.
     - **COMMENTARY**: THIS WAS A PERFECT RESPONSE FROM WORKER B. THEY ALSO FOCUSED ON ASKING WHAT HAPPENS IF THE FEAR CAME TRUE.
-`;
+
+
+## NEW CONVERSATION:`;

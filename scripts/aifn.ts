@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
 
 /**
  * Schema for a function to be called by OpenAI
@@ -42,25 +41,11 @@ export const aifn = <
   P extends z.ZodType<any, any>,
   R extends z.ZodType<any, any>
 >(
-  name: string,
-  description: string,
-  schema: P,
   f: (args: z.infer<P>) => z.infer<R>
 ): {
   fn: (params: z.infer<P>) => z.infer<R>;
-  schema: z.infer<typeof OpenAIFunctionSchema>;
 } => ({
   fn: (args: z.infer<P>) => {
-    try {
-      const validatedParams = schema.parse(args);
-      return f(validatedParams);
-    } catch (error: any) {
-      return error.message as z.infer<R>;
-    }
-  },
-  schema: {
-    name,
-    description,
-    parameters: zodToJsonSchema(schema),
+    return f(args);
   },
 });

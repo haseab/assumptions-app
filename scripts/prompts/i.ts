@@ -74,4 +74,6 @@ Here are some examples of conversations where \`workerI\` did a good job (COMMEN
 - **Assumptioneer:** It seems you've come to a good solution! Are you satisfied with this solution? 
     - **COMMENTARY**: THIS WAS A GREAT RESPONSE FROM workerI. They're challenging the user to think through their solutions and consider potential challenges and adaptations.
 - **User:** Yes, I think I'm satisfied with this solution. I feel like I have a good plan in place to make my presentations more comfortable and engaging.
-`;
+
+
+## NEW CONVERSATION:`;

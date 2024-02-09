@@ -1,33 +1,18 @@
-import { workerCCPrompt } from "@/scripts/prompts/cc";
 import chalk from "chalk";
 import OpenAI from "openai";
+import { ChatCompletion } from "openai/resources/index.mjs";
 import readline from "readline";
-import { askAI } from "./askai";
-import { functionName, testMessages } from "./preload";
-import * as tools from "./workers";
-
-export const functions = Object.entries(tools).reduce((acc, [name, tool]) => {
-  acc[name] = tool.fn;
-  return acc;
-}, {} as Record<string, (args: any) => any>);
-
-export const schemas = Object.values(tools).map((tool) => tool.schema);
+import { getCompletion, getSelection } from "./askai";
+import { functionName } from "./preload";
 
 export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const startMessages: OpenAI.Chat.ChatCompletionMessageParam[] = [
-  {
-    role: "system",
-    content: workerCCPrompt({ conversations: "", recommendations: "" }),
-  },
-];
-
-const systemMessage = testMessages.length !== 0 ? testMessages : startMessages;
-
-let function_name = functionName ? functionName : "";
-let completion;
+let function_name = functionName ? functionName : "workerA";
+let selection: ChatCompletion;
+let completion: string;
+let firstRun = true;
 
 async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
   const rl = readline.createInterface({
@@ -43,18 +28,30 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
       return; // Exit the function, stopping the loop
     }
 
+    console.log("FUNCTION NAME: ", function_name);
+
+    console.log("Messages: ", messages);
+    // MAKE A SELECTION OF NEXT WORKER
+
+    console.log("TRYING TO CHOOSE NEXT WORKER");
+    console.log(firstRun);
+
+    if (!firstRun) {
+      console.log("GOT IN");
+      function_name = await getSelection({ messages });
+    }
+    firstRun = false;
     if (answer) {
       messages.push({ role: "user", content: answer });
+
       console.log("MESSAGES", messages);
-      [completion, function_name] = await askAI({
-        messages,
-        functionName: function_name,
-      });
+
+      completion = await getCompletion({ messages });
+
       messages.push({
         role: "assistant",
         content: completion,
       });
-      console.log(chalk.magenta(`Assistant: ${completion}`));
     } else {
       console.log(chalk.red("You did not provide a query!"));
     }
@@ -64,9 +61,8 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
   });
 }
 
-// console.log(functions);
 // console.log(JSON.stringify(schemas, null, 2));
 // // Run the main function
-console.log(chalk.green("Welcome to the ai-fns cli tool!"));
+console.log(chalk.green("Welcome to assumptions.app cli tool!"));
 console.log(chalk.green("Start by typing a query, or type 'exit' to exit."));
-main(systemMessage);
+main();

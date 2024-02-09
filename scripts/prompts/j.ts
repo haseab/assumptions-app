@@ -13,4 +13,6 @@ Adopt the style and demeanour of a straightforward person that wears their heart
 
 Your output should be the response to the user. Do not explain steps or provide preamble. Just respond to the user.
 
+
+## NEW CONVERSATION:
 `;

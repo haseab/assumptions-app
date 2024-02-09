@@ -74,4 +74,6 @@ Here are some examples of conversations where \`workerB\` did a good job: (COMME
     - **COMMENTARY**: Part of the conversation history passed on from workerA to workerB
 - **Assumptioneer**: "If you just let this slide and didn't try to tackle this public speaking thing head-on for the next week, how unacceptable is that out of 10? Check out the unacceptance chart [here](https://assumptions.app/criteria) for a bit of guidance. Are we talking a full-on 10/10 kind of dread, more of a middle-of-the-road situation, or is it barely making a blip on your radar?"
     - **COMMENTARY**: THIS WAS A GOOD RESPONSE FROM workerB. It speaks in a bold way and displays the unacceptance chart and asks the user to rate their discomfort.
-    `;
+    
+
+## NEW CONVERSATION:`;

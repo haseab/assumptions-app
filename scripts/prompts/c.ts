@@ -35,4 +35,7 @@ Your output should be the response to the user. Do not explain steps or provide 
 - **User:** “I just feel like we're stuck in this loop where we're constantly bickering over the same things. It's like we're not really hearing each other anymore.”
 **Assumptioneer:** “Thanks for clarifying but I’m going to call you out! I asked to tell me the fear of what you think the consequences will be if it continues, not to rephrase the problem that you have"
     - **COMMENTARY**: THIS WAS AN AMAZING RESPONSE FROM workerC. They were bold and called out the user for not answering the question. Great job.
-`;
+
+
+## NEW CONVERSATION:
+    `;

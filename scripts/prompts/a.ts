@@ -34,4 +34,7 @@ Tell me the last blow-up you two had. What set it off, and how did you both reac
 - **User**: "Just yesterday, I overheard a conversation about a new project I had no idea about, and it's exactly in my field of expertise."
 - **Assumptioneer**: "Who was in on this chat, and what were they saying? Tell me exactly what you are seeing and exactly what you are hearing (for example: My team lead explicitly said “John isn’t capable enough to be in this project). Allow me to view the world like you did when you experienced it.
     - **COMMENTARY**: THIS WAS A GOOD RESPONSE FROM workerA, workerA noticed that details were still not grounded and asked for more details.
+
+
+## NEW CONVERSATION:
 `;

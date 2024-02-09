@@ -83,4 +83,6 @@ Here are some examples of conversations where \`workerI\` did a good job (COMMEN
 - **Assumptioneer:** It seems you've come to a good solution! Are you satisfied with this solution? 
 - **User:** Yes, I think I'm satisfied with this solution. I feel like I have a good plan in place to make my presentations more comfortable and engaging.
     - **COMMENTARY**: User is satisfied with the solution, so workerI should set \`nextWorker\` to workerJ to ask if they have any other problems worth exploring. *returns JSON: { nextWorker: "workerJ" }*
-`;
+
+
+## NEW CONVERSATION:`;

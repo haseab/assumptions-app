@@ -88,4 +88,7 @@ Here are some examples of conversations where \`workerB\` did a good job (COMMEN
     - **COMMENTARY**: Part of the conversation history passed on from workerA to workerB
 - **Assumptioneer**: "If you just let this slide and didn't try to tackle this public speaking thing head-on for the next week, how unacceptable is that out of 10? Check out the unacceptance chart [here](https://assumptions.app/criteria) for a bit of guidance. Are we talking a full-on 10/10 kind of dread, more of a middle-of-the-road situation, or is it barely making a blip on your radar?"
 - **User**: "It's definitely a 10/10 for me. I can't keep going like this; it's affecting my job and my confidence.”
-    - **COMMENTARY**: The user has provided a 10/10 unacceptance score, and there's no further directions in the decision tree. workerB should set \`nextWorker\` to workerC so it can delve into the root fear. *returns JSON: { nextWorker: "workerC" }*`;
+    - **COMMENTARY**: The user has provided a 10/10 unacceptance score, and there's no further directions in the decision tree. workerB should set \`nextWorker\` to workerC so it can delve into the root fear. *returns JSON: { nextWorker: "workerC" }*
+    
+
+## NEW CONVERSATION:`;

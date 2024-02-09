@@ -53,4 +53,6 @@ Here are some examples of conversations where \`workerC\` did a good job (COMMEN
 **Assumptioneer:** “Thanks for clarifying but I’m going to call you out! I asked to tell me the fear of what you think the consequences will be if it continues, not to rephrase the problem that you have"
 - **User: “**I'm afraid that if we can't get past this, it means our relationship isn't as strong as I thought. The thought of losing her terrifies me. It feels like every argument chips away at the foundation we've built, and I'm scared that eventually, there won't be anything left to save.”
     - **COMMENTARY**: User seems to have narrowed down on the root problem which is that they fear losing their partner. Now workerC will set \`nextWorker\` to workerD to ground the fear in experience. *returns JSON: { nextWorker: "workerD" }*
-`;
+
+
+## NEW CONVERSATION:`;
