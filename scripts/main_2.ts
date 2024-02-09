@@ -28,23 +28,22 @@ async function main(messages: OpenAI.Chat.ChatCompletionMessageParam[] = []) {
       return; // Exit the function, stopping the loop
     }
 
-    console.log("FUNCTION NAME: ", function_name);
+    // console.log("FUNCTION NAME: ", function_name);
 
-    console.log("Messages: ", messages);
+    // console.log("Messages: ", messages);
     // MAKE A SELECTION OF NEXT WORKER
 
-    console.log("TRYING TO CHOOSE NEXT WORKER");
-    console.log(firstRun);
+    // console.log("TRYING TO CHOOSE NEXT WORKER");
+    // console.log(firstRun);
 
     if (!firstRun) {
-      console.log("GOT IN");
       function_name = await getSelection({ messages });
     }
     firstRun = false;
     if (answer) {
       messages.push({ role: "user", content: answer });
 
-      console.log("MESSAGES", messages);
+      // console.log("MESSAGES", messages);
 
       completion = await getCompletion({ messages });
 

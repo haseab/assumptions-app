@@ -26,8 +26,8 @@ export const workerCallOpenAI = async ({
   messages: OpenAI.Chat.ChatCompletionMessageParam[];
   selector: boolean;
 }): Promise<string> => {
-  console.log("WORKER: MESSAGES");
-  console.log([systemMessage, ...messages]);
+  // console.log("WORKER: MESSAGES");
+  // console.log([systemMessage, ...messages]);
 
   let completion = await openai.chat.completions.create({
     messages: [{ role: "system", content: systemMessage }, ...messages],
@@ -39,6 +39,7 @@ export const workerCallOpenAI = async ({
 
   const chunks = [];
 
+  process.stdout.write(chalk.cyan("Assistant: "));
   for await (const chunk of completion) {
     const text = chunk.choices[0]?.delta?.content || "";
     chunks.push(text);

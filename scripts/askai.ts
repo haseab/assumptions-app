@@ -29,7 +29,7 @@ export const getSelection = async ({
       selector: true,
     });
 
-    console.log("SELECTION: ", selection);
+    // console.log("SELECTION: ", selection);
 
     const selectionJSON = JSON.parse(selection);
 
