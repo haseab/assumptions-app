@@ -2,12 +2,6 @@ import chalk from "chalk";
 import console from "console";
 import OpenAI from "openai";
 import { workerCallOpenAI } from "./worker";
-// import * as tools from "./workers";
-
-// export const functions = Object.entries(tools).reduce((acc, [name, tool]) => {
-//   acc[name] = tool.fn;
-//   return acc;
-// }, {} as Record<string, (args: any) => any>);
 
 let selection: string;
 

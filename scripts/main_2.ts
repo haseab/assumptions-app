@@ -27,14 +27,6 @@ async function main({
       return; // Exit the function, stopping the loop
     }
 
-    // console.log("FUNCTION NAME: ", function_name);
-
-    // console.log("Messages: ", messages);
-    // MAKE A SELECTION OF NEXT WORKER
-
-    // console.log("TRYING TO CHOOSE NEXT WORKER");
-    // console.log(firstRun);
-
     if (!firstRun) {
       nextWorker = await getSelection({ messages, lastWorker });
     }
@@ -59,8 +51,6 @@ async function main({
   });
 }
 
-// console.log(JSON.stringify(schemas, null, 2));
-// // Run the main function
 console.log(chalk.green("Welcome to assumptions.app cli tool!"));
 console.log(chalk.green("Start by typing a query, or type 'exit' to exit."));
 main({ lastWorker: "workerA", messages: [] });
