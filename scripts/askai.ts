@@ -49,5 +49,6 @@ export const getCompletion = async ({
     return completion;
   } catch (e) {
     console.log("ERROR: ", e);
+    return "Error completing request. Please try again.";
   }
 };
