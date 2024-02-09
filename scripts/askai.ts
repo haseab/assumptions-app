@@ -1,7 +1,6 @@
+import chalk from "chalk";
 import console from "console";
 import OpenAI from "openai";
-
-import chalk from "chalk";
 import * as tools from "./workers";
 
 export const functions = Object.entries(tools).reduce((acc, [name, tool]) => {

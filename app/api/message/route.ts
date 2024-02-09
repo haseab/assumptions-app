@@ -1,10 +1,5 @@
 import { getCompletion, getSelection } from "@/scripts/askai";
 // import * as tools from "@/scripts/workers";
-import OpenAI from "openai";
-
-export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 export const dynamic = "force-static";
 

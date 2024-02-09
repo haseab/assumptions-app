@@ -1,4 +1,4 @@
-import { openai } from "@/scripts/main_2";
+import { openai } from "@/scripts/openai";
 import chalk from "chalk";
 import { OpenAI } from "openai";
 

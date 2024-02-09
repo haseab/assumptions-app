@@ -3,10 +3,6 @@ import OpenAI from "openai";
 import readline from "readline";
 import { getCompletion, getSelection } from "./askai";
 
-export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 async function main({
   messages = [],
   lastWorker = "workerA",
