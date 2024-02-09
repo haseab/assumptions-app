@@ -1,12 +1,13 @@
 import chalk from "chalk";
 import console from "console";
 import OpenAI from "openai";
-import * as tools from "./workers";
+import { workerCallOpenAI } from "./worker";
+// import * as tools from "./workers";
 
-export const functions = Object.entries(tools).reduce((acc, [name, tool]) => {
-  acc[name] = tool.fn;
-  return acc;
-}, {} as Record<string, (args: any) => any>);
+// export const functions = Object.entries(tools).reduce((acc, [name, tool]) => {
+//   acc[name] = tool.fn;
+//   return acc;
+// }, {} as Record<string, (args: any) => any>);
 
 let selection: string;
 
@@ -18,12 +19,11 @@ export const getSelection = async ({
   lastWorker: string;
 }): Promise<any> => {
   try {
-    selection = await functions[lastWorker]({
+    selection = await workerCallOpenAI({
       messages,
+      worker: lastWorker,
       selector: true,
     });
-
-    // console.log("SELECTION: ", selection);
 
     const selectionJSON = JSON.parse(selection);
 
@@ -45,10 +45,10 @@ export const getCompletion = async ({
   nextWorker: string;
 }) => {
   console.log("NEXT WORKER:", nextWorker);
-  console.log("NEXT WORKER FUNCTION:", functions[nextWorker]);
   try {
-    const completion = await functions[nextWorker]({
+    const completion = await workerCallOpenAI({
       messages,
+      worker: nextWorker,
       selector: false,
     });
 

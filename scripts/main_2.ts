@@ -44,7 +44,7 @@ async function main({
 
       // console.log("MESSAGES", messages);
 
-      completion = await getCompletion({ messages, nextWorker });
+      const completion = await getCompletion({ messages, nextWorker });
 
       messages.push({
         role: "assistant",
