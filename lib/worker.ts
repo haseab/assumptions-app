@@ -44,8 +44,6 @@ export const selectorMap = Object.entries(selectors).reduce(
 
 //   // console.log("WORKER A COMPLETION: ", chunks.join(""));
 // };
-
-console.log(env);
 export const workerCallOpenAI = async function* ({
   messages,
   worker,
@@ -108,7 +106,7 @@ export const workerCallOpenAI = async function* ({
               if (jsonData.choices && jsonData.choices.length > 0) {
                 const content = jsonData.choices[0].delta?.content; // Extract the content from the first choice
                 if (content) {
-                  console.log("CONTENT: ", content);
+                  // console.log("CONTENT: ", content);
                   yield content; // Yield or process the content
                 }
               }
