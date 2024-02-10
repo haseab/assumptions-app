@@ -45,6 +45,7 @@ export const selectorMap = Object.entries(selectors).reduce(
 //   // console.log("WORKER A COMPLETION: ", chunks.join(""));
 // };
 
+console.log(process.env);
 export const workerCallOpenAI = async function* ({
   messages,
   worker,
