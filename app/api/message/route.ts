@@ -1,6 +1,8 @@
 // `api/message/route.ts`
 import { getCompletion, getSelection } from "@/scripts/askai";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   const headers = new Headers({
     "Content-Type": "text/event-stream",
