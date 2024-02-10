@@ -9,7 +9,7 @@ const rl = readline.createInterface({
 });
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPEN_AI_API_KEY,
   baseURL: "https://api.openai.withlogging.com/v1",
   defaultHeaders: {
     "X-Api-Key": "Bearer " + process.env.LLM_API_KEY,
