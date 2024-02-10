@@ -1,8 +1,8 @@
-import { openai } from "@/scripts/openai";
+import { openai } from "@/lib/openai";
 import chalk from "chalk";
 import OpenAI from "openai";
 import readline from "readline";
-import { getCompletion, getSelection } from "./askai";
+import { getCompletion, getSelection } from "../lib/askai";
 
 async function main({
   messages = [],

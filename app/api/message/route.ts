@@ -1,6 +1,6 @@
 // `api/message/route.ts`
-import { getCompletion, getSelection } from "@/scripts/askai";
-import { openai } from "@/scripts/openai";
+import { getCompletion, getSelection } from "@/lib/askai";
+import { openai } from "@/lib/openai";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
