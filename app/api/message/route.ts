@@ -1,5 +1,6 @@
 // `api/message/route.ts`
 import { getCompletion, getSelection } from "@/scripts/askai";
+import { openai } from "@/scripts/openai";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -21,12 +22,16 @@ export async function POST(request: NextRequest) {
         let firstRun = true;
 
         if (!firstRun) {
-          nextWorker = await getSelection({ messages, lastWorker });
+          nextWorker = await getSelection({ messages, openai, lastWorker });
         }
         firstRun = false;
 
         // Stream chunks from getCompletion
-        for await (const chunk of getCompletion({ messages, nextWorker })) {
+        for await (const chunk of getCompletion({
+          messages,
+          nextWorker,
+          openai,
+        })) {
           controller.enqueue(
             `data: ${JSON.stringify({
               completion: chunk,
