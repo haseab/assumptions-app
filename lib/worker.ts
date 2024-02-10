@@ -27,6 +27,7 @@ export const workerCallOpenAI = async function* ({
 }) {
   const systemMessage = selector ? selectorMap[worker] : promptMap[worker];
 
+  console.log("API KEY", openai.apiKey);
   let completionStream = await openai.chat.completions.create({
     messages: [{ role: "system", content: systemMessage }, ...messages],
     response_format: { type: selector ? "json_object" : "text" },
