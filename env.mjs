@@ -25,5 +25,6 @@ export const env = createEnv({
    */
   runtimeEnv: {
     OPEN_AI_API_KEY: process.env.OPEN_AI_API_KEY,
+    NEXT_PUBLIC_CHATBOT_LINK: process.env.NEXT_PUBLIC_CHATBOT_LINK,
   },
 });
