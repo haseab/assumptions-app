@@ -1,4 +1,3 @@
-import { openai } from "@/lib/openai";
 import chalk from "chalk";
 import OpenAI from "openai";
 import readline from "readline";
@@ -29,7 +28,7 @@ async function main({
     }
 
     if (!firstRun) {
-      nextWorker = await getSelection({ messages, openai, lastWorker });
+      nextWorker = await getSelection({ messages, lastWorker });
     }
     firstRun = false;
     if (answer) {
@@ -43,7 +42,6 @@ async function main({
         // Since workerCallOpenAI is now an async generator, use for-await-of to iterate over the chunks
         for await (const chunk of getCompletion({
           messages,
-          openai,
           nextWorker,
         })) {
           completion += chunk; // Append each chunk to the selection string

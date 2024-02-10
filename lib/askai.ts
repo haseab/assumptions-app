@@ -5,11 +5,9 @@ import { workerCallOpenAI } from "./worker";
 
 export const getSelection = async ({
   messages,
-  openai,
   lastWorker = "workerA",
 }: {
   messages: OpenAI.Chat.ChatCompletionMessageParam[];
-  openai: OpenAI;
   lastWorker: string;
 }): Promise<any> => {
   let selection = ""; // Initialize an empty string to collect the streamed data
@@ -19,7 +17,6 @@ export const getSelection = async ({
     for await (const chunk of workerCallOpenAI({
       messages,
       worker: lastWorker,
-      openai,
       selector: true,
     })) {
       selection += chunk; // Append each chunk to the selection string
@@ -41,17 +38,14 @@ export const getSelection = async ({
 export const getCompletion = async function* ({
   messages,
   nextWorker = "workerA",
-  openai,
 }: {
   messages: OpenAI.Chat.ChatCompletionMessageParam[];
   nextWorker: string;
-  openai: OpenAI;
 }) {
   console.log("NEXT WORKER:", nextWorker);
   try {
     for await (const chunk of workerCallOpenAI({
       messages,
-      openai,
       worker: nextWorker,
       selector: false,
     })) {

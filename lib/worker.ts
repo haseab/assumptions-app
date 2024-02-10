@@ -1,7 +1,7 @@
+import { openai } from "@/lib/openai";
 import * as prompts from "@/lib/prompts";
 import * as selectors from "@/lib/selectors";
 import chalk from "chalk";
-import OpenAI from "openai";
 
 export const promptMap = Object.entries(prompts).reduce((acc, [name, tool]) => {
   acc[name] = tool;
@@ -19,12 +19,10 @@ export const selectorMap = Object.entries(selectors).reduce(
 export const workerCallOpenAI = async function* ({
   messages,
   worker,
-  openai,
   selector = false,
 }: {
   messages: any;
   worker: string;
-  openai: OpenAI;
   selector: boolean;
 }) {
   const systemMessage = selector ? selectorMap[worker] : promptMap[worker];
