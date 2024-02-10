@@ -1,9 +1,10 @@
 // `api/message/route.ts`
 import { getCompletion, getSelection } from "@/scripts/askai";
+import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const headers = new Headers({
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
@@ -42,5 +43,5 @@ export async function POST(request: Request) {
     },
   });
 
-  return new Response(stream, { headers });
+  return new NextResponse(stream, { headers });
 }
