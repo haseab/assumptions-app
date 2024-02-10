@@ -1,7 +1,7 @@
 import * as prompts from "@/lib/prompts";
 import * as selectors from "@/lib/selectors";
 import chalk from "chalk";
-
+import { env } from "../env.mjs";
 export const promptMap = Object.entries(prompts).reduce((acc, [name, tool]) => {
   acc[name] = tool;
   return acc;
@@ -45,7 +45,7 @@ export const selectorMap = Object.entries(selectors).reduce(
 //   // console.log("WORKER A COMPLETION: ", chunks.join(""));
 // };
 
-console.log(process.env);
+console.log(env);
 export const workerCallOpenAI = async function* ({
   messages,
   worker,
@@ -64,7 +64,7 @@ export const workerCallOpenAI = async function* ({
       headers: {
         "Content-Type": "application/json",
         Accept: "text/event-stream",
-        Authorization: `Bearer ${process.env.OPEN_AI_API_KEY}`,
+        Authorization: `Bearer ${env.OPEN_AI_API_KEY}`,
       },
       body: JSON.stringify({
         messages: [{ role: "system", content: systemMessage }, ...messages],

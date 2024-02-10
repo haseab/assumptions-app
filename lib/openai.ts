@@ -1,5 +1,6 @@
+import { env } from "@/env.mjs";
 import OpenAI from "openai";
 
 export const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI_API_KEY,
+  apiKey: env.OPEN_AI_API_KEY,
 });
