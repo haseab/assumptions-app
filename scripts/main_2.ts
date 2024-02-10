@@ -36,12 +36,26 @@ async function main({
 
       // console.log("MESSAGES", messages);
 
-      const completion = await getCompletion({ messages, nextWorker });
+      let completion = ""; // Initialize an empty string to collect the streamed data
 
-      messages.push({
-        role: "assistant",
-        content: completion,
-      });
+      try {
+        // Since workerCallOpenAI is now an async generator, use for-await-of to iterate over the chunks
+        for await (const chunk of getCompletion({
+          messages,
+          nextWorker,
+        })) {
+          completion += chunk; // Append each chunk to the selection string
+        }
+
+        messages.push({
+          role: "assistant",
+          content: completion,
+        });
+      } catch (e) {
+        console.log("ERROR: ", e);
+        // Handle error appropriately, potentially returning a default value or re-throwing the error
+        throw e;
+      }
     } else {
       console.log(chalk.red("You did not provide a query!"));
     }

@@ -16,7 +16,7 @@ export const selectorMap = Object.entries(selectors).reduce(
   {} as Record<string, string>
 );
 
-export const workerCallOpenAI = async ({
+export const workerCallOpenAI = async function* ({
   messages,
   worker,
   selector = false,
@@ -24,10 +24,10 @@ export const workerCallOpenAI = async ({
   messages: any;
   worker: string;
   selector: boolean;
-}) => {
+}) {
   const systemMessage = selector ? selectorMap[worker] : promptMap[worker];
 
-  let completion = await openai.chat.completions.create({
+  let completionStream = await openai.chat.completions.create({
     messages: [{ role: "system", content: systemMessage }, ...messages],
     response_format: { type: selector ? "json_object" : "text" },
     model: "gpt-4-0125-preview",
@@ -35,17 +35,13 @@ export const workerCallOpenAI = async ({
     temperature: 0,
   });
 
-  const chunks = [];
-
   process.stdout.write(chalk.cyan("Assistant: "));
-  for await (const chunk of completion) {
+  for await (const chunk of completionStream) {
     const text = chunk.choices[0]?.delta?.content || "";
-    chunks.push(text);
     process.stdout.write(chalk.magenta(`${text}`));
+    yield text;
   }
   process.stdout.write("\n");
 
   // console.log("WORKER A COMPLETION: ", chunks.join(""));
-  const res = chunks.join("");
-  return res;
 };
