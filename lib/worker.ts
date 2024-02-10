@@ -1,5 +1,5 @@
-import * as prompts from "@/scripts/prompts";
-import * as selectors from "@/scripts/selectors";
+import * as prompts from "@/lib/prompts";
+import * as selectors from "@/lib/selectors";
 import chalk from "chalk";
 import OpenAI from "openai";
 
