@@ -25,7 +25,7 @@ const FullPageIframe = () => {
       <div className="flex flex-row h-screen w-screen items-center justify-center rounded-lg bg-white">
         <div className="max-h-full w-full h-full md:w-[400px] md:h-[600px]">
           <iframe
-            src={process.env.CHATBOT_LINK}
+            src={process.env.NEXT_PUBLIC_CHATBOT_LINK}
             width="100%"
             height="100%"
             style={{
