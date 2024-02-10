@@ -19,7 +19,7 @@ export default async function handler(
 
   try {
     console.log("REQ BODY", req.body);
-    const { messages, lastWorker } = JSON.parse(req.body);
+    const { messages, lastWorker } = req.body;
     if (!firstRun) {
       nextWorker = await getSelection({ messages, lastWorker });
     }
