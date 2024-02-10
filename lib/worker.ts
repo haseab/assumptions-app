@@ -61,13 +61,14 @@ export const workerCallOpenAI = async function* ({
     {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Accept: "text/event-stream",
         Authorization: `Bearer ${process.env.OPEN_AI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-4-0125-preview",
         messages: [{ role: "system", content: systemMessage }, ...messages],
         response_format: { type: selector ? "json_object" : "text" },
+        model: "gpt-4-0125-preview",
         stream: true,
         temperature: 0,
       }),
@@ -76,6 +77,8 @@ export const workerCallOpenAI = async function* ({
 
   process.stdout.write(chalk.cyan("Assistant: "));
 
+  let buffer = ""; // Initialize an empty buffer
+
   if (completionStream.body) {
     const reader = completionStream.body.getReader();
     try {
@@ -83,17 +86,41 @@ export const workerCallOpenAI = async function* ({
         const { done, value } = await reader.read();
         if (done) break;
 
-        // Assuming the stream is UTF-8 text, decode the chunk
         const textDecoder = new TextDecoder();
-        const chunkText = textDecoder.decode(value);
+        buffer += textDecoder.decode(value, { stream: true }); // Append new data to buffer, ensuring to handle multi-byte characters correctly
 
-        const text = JSON.parse(chunkText).choices[0]?.delta?.contentText;
+        // Attempt to process complete JSON objects from the buffer
+        while (buffer) {
+          const endOfObject = buffer.indexOf("\n\n"); // Assuming each JSON object is delimited by "\n\n"
+          if (endOfObject === -1) break; // If no end of object marker, wait for more data
 
-        process.stdout.write(chalk.magenta(`${text}`));
-        yield text;
+          const chunk = buffer.substring(0, endOfObject); // Extract the complete JSON object
+          buffer = buffer.substring(endOfObject + 2); // Remove processed object from buffer
+
+          if (chunk.startsWith("data:")) {
+            // if chunk is [Done] stop
+            if (chunk.includes("DONE")) {
+              break;
+            }
+            try {
+              const jsonData = JSON.parse(chunk.substring(5)); // Remove 'data:' prefix and parse the JSON
+              if (jsonData.choices && jsonData.choices.length > 0) {
+                const content = jsonData.choices[0].delta?.content; // Extract the content from the first choice
+                if (content) {
+                  console.log("CONTENT: ", content);
+                  yield content; // Yield or process the content
+                }
+              }
+            } catch (parseError) {
+              console.error("Error parsing JSON: ", parseError);
+              // Optionally, handle incomplete/invalid JSON structure
+              // You might want to append the chunk back to buffer or handle it differently
+            }
+          }
+        }
       }
-    } catch (err) {
-      console.error("Error reading the stream:", err);
+    } catch (error) {
+      console.error("Error reading from the stream: ", error);
     } finally {
       reader.releaseLock();
     }
