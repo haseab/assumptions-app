@@ -17,13 +17,8 @@ export async function POST(request: NextRequest) {
       (async () => {
         const body = await request.json();
         const { messages, lastWorker } = body;
-        let nextWorker = "workerA";
-        let firstRun = true;
 
-        if (!firstRun) {
-          nextWorker = await getSelection({ messages, lastWorker });
-        }
-        firstRun = false;
+        let nextWorker = await getSelection({ messages, lastWorker });
 
         // Stream chunks from getCompletion
         for await (const chunk of getCompletion({
