@@ -10,7 +10,7 @@ export const conversationConverter = (
       return message.role !== "system" && message.role !== "function";
     })
     .map((message) => {
-      string += `${message.role}: ${message.content}\n`;
+      string += `${message.role}: ${message.content}\n\n`;
     });
   return string;
 };
