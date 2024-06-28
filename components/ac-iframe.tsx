@@ -24,7 +24,7 @@ const FullPageIframe = () => {
   return (
     <>
       <div className="flex flex-row h-screen w-screen items-center justify-center rounded-lg bg-white">
-        <div className="max-h-full w-full h-full md:w-[500px] md:h-[700px]">
+        <div className="max-h-full w-full h-full md:w-[1000px] md:h-[800px]">
           <iframe
             src={env.NEXT_PUBLIC_CHATBOT_LINK}
             width="100%"
